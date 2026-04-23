@@ -16,6 +16,9 @@ dependencies = [
     "langchain-fireworks>=0.1.7",
     "python-dotenv>=1.0.1",
     "langchain-tavily>=0.1",
+    "launchdarkly-server-sdk>=9.15.1",
+    "launchdarkly-server-sdk-ai>=0.18.0",
+    "launchdarkly-server-sdk-ai-langchain>=0.5.0",
 ]
 
 

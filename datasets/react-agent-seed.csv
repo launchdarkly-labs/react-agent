@@ -1,0 +1,7 @@
+input,expected_output,notes
+"What is 2+2?","4","Should answer directly without calling search."
+"Who wrote the Iliad?","Homer","General knowledge — should answer without tool use."
+"Give me one headline from today's tech news.","A recent, factual tech headline cited from search results.","Should call the search tool."
+"What is the latest version of LangGraph on PyPI?","The current LangGraph PyPI version, or a sentence acknowledging uncertainty.","Should call the search tool and cite a real release."
+"In one sentence, what does LaunchDarkly do?","LaunchDarkly is a feature management and experimentation platform for software teams.","General-knowledge answer; search is optional."
+"What time is it right now?","A response that uses the system_time provided in the system prompt.","Tests that the {{ system_time }} variable was interpolated correctly."

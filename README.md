@@ -21,6 +21,12 @@ The ReAct agent:
 
 By default, it's set up with a basic set of tools, but can be easily extended with custom tools to suit various use cases.
 
+## LaunchDarkly AI Configs
+
+The model, system prompt, and attached tools are sourced from a LaunchDarkly AI Config (`react-agent-demo > react-agent`); set `LD_SDK_KEY` in `.env` to use the live config or omit it to fall through to the code defaults in [`src/react_agent/ld_client.py`](./src/react_agent/ld_client.py).
+
+`call_model` creates one `LDAIConfigTracker` on its first tick of each run and stashes it on `State`; subsequent ticks reuse it so all metric events share the per-execution `runId` LaunchDarkly bills against (`launchdarkly-server-sdk-ai` 0.18.0). The `finalize` node emits the at-most-once metrics (`track_duration`, `track_tokens`, `track_success`/`track_error`) once per run.
+
 ## Getting Started
 
 Assuming you have already [installed LangGraph Studio](https://github.com/langchain-ai/langgraph-studio?tab=readme-ov-file#download), to set up:

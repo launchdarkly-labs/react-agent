@@ -1,46 +1,15 @@
-"""Define the configurable parameters for the agent."""
+"""Configuration passed via LangGraph Runtime.
+
+All model/prompt/tool-parameter configuration is sourced from LaunchDarkly at
+request time (see ``react_agent.ld_client``); this dataclass now only exists to
+satisfy LangGraph's ``context_schema`` requirement.
+"""
 
 from __future__ import annotations
 
-import os
-from dataclasses import dataclass, field, fields
-from typing import Annotated
-
-from . import prompts
+from dataclasses import dataclass
 
 
 @dataclass(kw_only=True)
 class Context:
-    """The context for the agent."""
-
-    system_prompt: str = field(
-        default=prompts.SYSTEM_PROMPT,
-        metadata={
-            "description": "The system prompt to use for the agent's interactions. "
-            "This prompt sets the context and behavior for the agent."
-        },
-    )
-
-    model: Annotated[str, {"__template_metadata__": {"kind": "llm"}}] = field(
-        default="anthropic/claude-sonnet-4-5-20250929",
-        metadata={
-            "description": "The name of the language model to use for the agent's main interactions. "
-            "Should be in the form: provider/model-name."
-        },
-    )
-
-    max_search_results: int = field(
-        default=10,
-        metadata={
-            "description": "The maximum number of search results to return for each search query."
-        },
-    )
-
-    def __post_init__(self) -> None:
-        """Fetch env vars for attributes that were not passed as args."""
-        for f in fields(self):
-            if not f.init:
-                continue
-
-            if getattr(self, f.name) == f.default:
-                setattr(self, f.name, os.environ.get(f.name.upper(), f.default))
+    """Empty runtime context. Reserved for future request-scoped identity."""

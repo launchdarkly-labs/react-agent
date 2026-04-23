@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Sequence
+from operator import add
+from typing import Any, List, Optional, Sequence
 
 from langchain_core.messages import AnyMessage
 from langgraph.graph import add_messages
@@ -53,8 +54,15 @@ class State(InputState):
     It is set to 'True' when the step count reaches recursion_limit - 1.
     """
 
-    # Additional attributes can be added here as needed.
-    # Common examples include:
-    # retrieved_documents: List[Document] = field(default_factory=list)
-    # extracted_entities: Dict[str, Any] = field(default_factory=dict)
-    # api_connections: Dict[str, Any] = field(default_factory=dict)
+    # Run-scoped LaunchDarkly state. Created once on the first ``call_model``
+    # tick and reused for the rest of the run so every metric event shares one
+    # ``runId`` (the unit LaunchDarkly bills and groups by). The token fields
+    # use ``add`` so accumulating across loop iterations is a one-line return.
+    ai_config: Optional[Any] = None
+    tracker: Optional[Any] = None
+    tools: List[Any] = field(default_factory=list)
+    start_perf_ns: int = 0
+    input_tokens: Annotated[int, add] = 0
+    output_tokens: Annotated[int, add] = 0
+    total_tokens: Annotated[int, add] = 0
+    errored: bool = False
