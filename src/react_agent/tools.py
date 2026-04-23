@@ -15,8 +15,8 @@ from ldai.models import AIAgentConfig
 def make_search(ai_config: AIAgentConfig) -> Callable[..., Any]:
     """Build a search tool that closes over this run's max_search_results.
 
-    Capturing the value at run setup keeps it stable across the turn — a
-    mid-run flag flip won't change it between two tool calls — and means
+    Capturing the value at run setup keeps it stable across the turn (a
+    mid-run flag flip won't change it between two tool calls) and means
     the tool body never re-evaluates the AI Config (which would emit an
     extra $ld:ai:agent_config event per tool call).
     """
